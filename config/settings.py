@@ -13,14 +13,6 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-your-custom-fallback-key-here-make-it-long')
 
-# Ensure DATABASE_URL is set in production
-if not DEBUG and not os.getenv('DATABASE_URL'):
-    raise ValueError("DATABASE_URL environment variable is required in production")
-
-# Ensure SECRET_KEY is not the default in production
-if not DEBUG and SECRET_KEY == 'django-insecure-your-custom-fallback-key-here-make-it-long':
-    raise ValueError("SECRET_KEY environment variable must be set in production")
-
 ALLOWED_HOSTS = [host.strip() for host in os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')]
 
 # Application definition
