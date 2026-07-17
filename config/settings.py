@@ -17,13 +17,13 @@ ALLOWED_HOSTS = [host.strip() for host in os.getenv('ALLOWED_HOSTS', 'localhost,
 
 # Application definition
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
+    'SkillTrack.apps.SkillTrackConfig',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'SkillTrack.apps.SkillTrackConfig',
+    'django.contrib.admin',
 ]
 
 MIDDLEWARE = [
