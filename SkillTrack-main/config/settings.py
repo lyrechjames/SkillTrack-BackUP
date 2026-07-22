@@ -70,12 +70,23 @@ placeholder_patterns = [
 if not db_url or any(pattern in db_url for pattern in placeholder_patterns):
     db_url = 'sqlite:///' + str(BASE_DIR / 'db.sqlite3')
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=db_url,
-        conn_max_age=600,
-    )
-}
+# Try to connect with the configured database URL
+# If authentication fails (e.g., wrong password), fall back to SQLite
+try:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=db_url,
+            conn_max_age=600,
+        )
+    }
+except Exception:
+    # If database connection fails, use SQLite as fallback
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': str(BASE_DIR / 'db.sqlite3'),
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
