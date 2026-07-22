@@ -107,9 +107,10 @@ def register_view(request):
                 password=password,
                 first_name=first_name,
                 last_name=last_name,
+                role=User.Role.USER,
             )
             log_action(user, 'ADD', f"New user registered: {user.username} (Email: {user.email})")
-            login(request, user, backend='SkillTrack.backends.EmailBackend')
+            login(request, user)
             messages.success(request, 'Registration successful! You are now logged in.')
             return redirect('dashboard')
 

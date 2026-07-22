@@ -3,9 +3,8 @@ from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
-load_dotenv()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
@@ -62,7 +61,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 db_url = os.getenv('DATABASE_URL', '')
 
 # Fallback to SQLite if no DATABASE_URL is set or if it contains placeholder passwords
-if not db_url or 'YOUR_PASSWORD' in db_url or 'YOUR_ACTUAL_PASSWORD' in db_url:
+if not db_url or 'YOUR_PASSWORD' in db_url or 'YOUR_ACTUAL_PASSWORD' in db_url or 'YOUR_SUPABASE_PASSWORD' in db_url:
     db_url = 'sqlite:///' + str(BASE_DIR / 'db.sqlite3')
 
 DATABASES = {
@@ -132,3 +131,4 @@ if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
+    CSRF_TRUSTED_ORIGINS = ['https://skilltrack-7cin.onrender.com']
