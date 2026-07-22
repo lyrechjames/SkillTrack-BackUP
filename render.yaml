@@ -2,7 +2,7 @@ services:
   - type: web
     name: skilltrack
     env: python
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
     startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 4
     envVars:
       - key: SECRET_KEY
@@ -10,14 +10,5 @@ services:
       - key: DEBUG
         value: False
       - key: ALLOWED_HOSTS
-        value: .onrender.com
-      - key: DATABASE_URL
-        fromDatabase:
-          name: skilltrack-db
-          property: connectionString
+        value: .onrender.com,skilltrack-7cin.onrender.com,localhost,127.0.0.1
     healthCheckPath: /
-    
-databases:
-  - name: skilltrack-db
-    databaseName: skilltrack
-    user: skilltrack
