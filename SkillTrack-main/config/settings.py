@@ -61,7 +61,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 db_url = os.getenv('DATABASE_URL', '')
 
 # Fallback to SQLite if no DATABASE_URL is set or if it contains placeholder passwords
-if not db_url or 'YOUR_PASSWORD' in db_url or 'YOUR_ACTUAL_PASSWORD' in db_url or 'YOUR_SUPABASE_PASSWORD' in db_url:
+# Also check for common placeholder patterns
+placeholder_patterns = [
+    'YOUR_PASSWORD', 'YOUR_ACTUAL_PASSWORD', 'YOUR_SUPABASE_PASSWORD',
+    'YOUR-PASSWORD', 'PASSWORD_HERE', 'CHANGE_ME', 'FILL_ME',
+    'placeholder', 'dummy', 'test123', 'example.com'
+]
+if not db_url or any(pattern in db_url for pattern in placeholder_patterns):
     db_url = 'sqlite:///' + str(BASE_DIR / 'db.sqlite3')
 
 DATABASES = {
